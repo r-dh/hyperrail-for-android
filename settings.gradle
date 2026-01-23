@@ -1,1 +1,10 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+}
+
 include ':Hyperrail', ':OpenTransport', ':opentransport_be', ':OpenTransport_be_experimental'

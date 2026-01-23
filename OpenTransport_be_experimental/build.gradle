@@ -3,6 +3,11 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 33
     buildToolsVersion '30.0.3'
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
@@ -29,10 +34,6 @@ android {
     }
     namespace 'be.hyperrail.opentransportdata.be.experimental'
 
-}
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
