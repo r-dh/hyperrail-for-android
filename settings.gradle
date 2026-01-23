@@ -7,4 +7,4 @@ dependencyResolutionManagement {
     }
 }
 
-include ':Hyperrail', ':OpenTransport', ':opentransport_be', ':OpenTransport_be_experimental'
+include ':Hyperrail', ':OpenTransport', ':opentransport_be'

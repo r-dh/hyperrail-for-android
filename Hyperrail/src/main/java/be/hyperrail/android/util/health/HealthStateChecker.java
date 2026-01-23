@@ -8,9 +8,11 @@ package be.hyperrail.android.util.health;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -20,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import be.hyperrail.android.BuildConfig;
+import be.hyperrail.android.logging.HyperRailLog;
 
 
 /**
@@ -43,9 +46,15 @@ public class HealthStateChecker {
             connectionReceiverListener.onSystemHealthChanged(new HealthState(response));
         };
 
+        Response.ErrorListener errorListener = error -> {
+            HyperRailLog.getLogger(HealthStateChecker.class)
+                    .warning("Failed to fetch system health status", error);
+            // Silently fail - health check is non-critical
+            // The app will continue to work without system health info
+        };
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, "https://hyperrail.be/status.json", null, successListener, null) {
+                (Request.Method.GET, "https://hyperrail.be/status.json", null, successListener, errorListener) {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -53,6 +62,14 @@ public class HealthStateChecker {
                 return headers;
             }
         };
+
+        // Set timeout and retry policy consistent with main API
+        jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,  // 10 second timeout
+                2,      // 2 retries (3 total attempts)
+                2.0f    // Exponential backoff multiplier
+        ));
+
         requestQueue.add(jsObjRequest);
     }
 

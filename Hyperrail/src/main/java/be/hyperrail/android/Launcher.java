@@ -12,7 +12,7 @@
 
 package be.hyperrail.android;
 
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 

@@ -9,7 +9,7 @@ package be.hyperrail.android.util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import org.joda.time.DateTime;
 
