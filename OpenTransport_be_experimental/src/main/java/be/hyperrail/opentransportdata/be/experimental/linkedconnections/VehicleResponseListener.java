@@ -83,6 +83,7 @@ public class VehicleResponseListener implements TransportDataSuccessResponseList
                         Duration.standardSeconds(connection.getDepartureDelay()),
                         Duration.standardSeconds(lastConnection.getArrivalDelay()),
                         false, false, lastConnection.getDelayedArrivalTime().isBeforeNow(),
+                        connection.getDelayedDepartureTime().isBeforeNow(),
                         connection.getSemanticId(), TransportOccupancyLevel.UNSUPPORTED, VehicleStopType.STOP));
             }
 
@@ -109,7 +110,7 @@ public class VehicleResponseListener implements TransportDataSuccessResponseList
 
             VehicleStopImpl[] stopsArray = new VehicleStopImpl[stops.size()];
             ((MeteredDataSource.MeteredRequest) tag).setMsecParsed(DateTime.now().getMillis());
-            mRequest.notifySuccessListeners(new IrailVehicleJourney(stops.get(0).getVehicle().getId(), lastConnection.getRoute(), 0, 0, stops.toArray(stopsArray)));
+            mRequest.notifySuccessListeners(new IrailVehicleJourney((IrailVehicleInfo) stops.get(0).getVehicle(), 0, 0, stops.toArray(stopsArray)));
         }
     }
 

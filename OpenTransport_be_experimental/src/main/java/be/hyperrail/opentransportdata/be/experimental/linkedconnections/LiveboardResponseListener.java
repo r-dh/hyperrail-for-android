@@ -185,7 +185,8 @@ public class LiveboardResponseListener implements TransportDataSuccessResponseLi
                             Duration.standardSeconds(arrival.getArrivalDelay()),
                             false,
                             false,
-                            departure.getDelayedDepartureTime().isAfterNow(),
+                            arrival.getDelayedArrivalTime().isBeforeNow(),
+                            departure.getDelayedDepartureTime().isBeforeNow(),
                             departure.getSemanticId(),
                             TransportOccupancyLevel.UNSUPPORTED,
                             VehicleStopType.STOP));
@@ -220,6 +221,7 @@ public class LiveboardResponseListener implements TransportDataSuccessResponseLi
                         new Duration(0),
                         false,
                         false,
+                        false,
                         departure.getDelayedDepartureTime().isBeforeNow(),
                         departure.getSemanticId(),
                         TransportOccupancyLevel.UNSUPPORTED,
@@ -249,6 +251,7 @@ public class LiveboardResponseListener implements TransportDataSuccessResponseLi
                         false,
                         false,
                         arrival.getDelayedArrivalTime().isBeforeNow(),
+                        false,
                         arrival.getSemanticId(),
                         TransportOccupancyLevel.UNSUPPORTED,
                         VehicleStopType.ARRIVAL));

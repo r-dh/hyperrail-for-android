@@ -328,6 +328,7 @@ class Lc2IrailParser {
                                     Duration.standardSeconds(arrivalDelay),
                                     isDepartureCanceled,
                                     isArrivalCanceled,
+                                    hasArrived,
                                     hasDeparted,
                                     uri,
                                     TransportOccupancyLevel.UNSUPPORTED,
