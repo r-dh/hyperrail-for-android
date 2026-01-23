@@ -188,6 +188,7 @@ class Lc2IrailParser {
                                     Duration.standardSeconds(arrivalDelay),
                                     departureCanceled,
                                     arrivalCanceled,
+                                    hasArrived,
                                     hasDeparted,
                                     uri,
                                     TransportOccupancyLevel.UNSUPPORTED,
@@ -251,7 +252,7 @@ class Lc2IrailParser {
                 latitude = stops[i].getStopLocation().getLatitude();
             }
         }
-        return new IrailVehicleJourney(id, uri, longitude, latitude, stops);
+        return new IrailVehicleJourney(vehicleStub, longitude, latitude, stops);
     }
 
     @NonNull
