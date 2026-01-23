@@ -213,8 +213,14 @@ public class LinkedConnectionsDataSource implements TransportDataSource, Metered
 
     private boolean isInternetAvailable() {
         NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        // Check if network is connected. Note: This doesn't guarantee internet access,
+        // especially with VPN connections. We let Volley handle actual connectivity failures
+        // with its retry policy, and rely on cache fallback if needed.
+        boolean hasNetworkConnection = activeNetwork != null && activeNetwork.isConnected();
+
+        // For VPN connections, isConnected() is more reliable than isConnectedOrConnecting()
+        // as it verifies the network is fully established
+        return hasNetworkConnection;
     }
 
 

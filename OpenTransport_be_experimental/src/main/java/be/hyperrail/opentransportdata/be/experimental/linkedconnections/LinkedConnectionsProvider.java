@@ -64,8 +64,14 @@ public class LinkedConnectionsProvider {
 
     private boolean isInternetAvailable() {
         NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        // Check if network is connected. Note: This doesn't guarantee internet access,
+        // especially with VPN connections. We let Volley handle actual connectivity failures
+        // with its retry policy, and rely on cache fallback if needed.
+        boolean hasNetworkConnection = activeNetwork != null && activeNetwork.isConnected();
+
+        // For VPN connections, isConnected() is more reliable than isConnectedOrConnecting()
+        // as it verifies the network is fully established
+        return hasNetworkConnection;
     }
 
     LinkedConnectionsProvider(Context context) {
@@ -78,9 +84,9 @@ public class LinkedConnectionsProvider {
         requestQueue.start();
 
         this.requestPolicy = new DefaultRetryPolicy(
-                1000,
-                2,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                10000,
+                3,
+                2.0f
         );
         mConnectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

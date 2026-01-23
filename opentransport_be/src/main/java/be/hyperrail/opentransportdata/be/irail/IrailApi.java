@@ -82,9 +82,9 @@ public class IrailApi implements TransportDataSource {
         this.parser = new IrailApiParser(stationProviderInstance);
         this.requestQueue = Volley.newRequestQueue(context);
         this.requestPolicy = new DefaultRetryPolicy(
-                750,
+                10000,
                 3,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                2.0f
         );
         connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -92,8 +92,14 @@ public class IrailApi implements TransportDataSource {
 
     private boolean isInternetAvailable() {
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        // Check if network is connected. Note: This doesn't guarantee internet access,
+        // especially with VPN connections. We let Volley handle actual connectivity failures
+        // with its retry policy, and rely on cache fallback if needed.
+        boolean hasNetworkConnection = activeNetwork != null && activeNetwork.isConnected();
+
+        // For VPN connections, isConnected() is more reliable than isConnectedOrConnecting()
+        // as it verifies the network is fully established
+        return hasNetworkConnection;
     }
 
     @Override

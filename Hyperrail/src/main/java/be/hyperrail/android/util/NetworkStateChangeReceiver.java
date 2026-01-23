@@ -32,8 +32,9 @@ public class NetworkStateChangeReceiver extends BroadcastReceiver {
         if (cm != null) {
             activeNetwork = cm.getActiveNetworkInfo();
         }
+        // Use isConnected() instead of isConnectedOrConnecting() for better VPN compatibility
         boolean isConnected = activeNetwork != null
-                && activeNetwork.isConnectedOrConnecting();
+                && activeNetwork.isConnected();
 
         if (connectionReceiverListener != null) {
             connectionReceiverListener.onNetworkConnectionChanged(isConnected);
