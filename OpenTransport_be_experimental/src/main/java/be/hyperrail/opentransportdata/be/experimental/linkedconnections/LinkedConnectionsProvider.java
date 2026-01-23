@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import be.hyperrail.opentransportdata.be.experimental.BuildConfig;
 import be.hyperrail.opentransportdata.common.contracts.MeteredDataSource;
 import be.hyperrail.opentransportdata.common.contracts.TransportDataErrorResponseListener;
 import be.hyperrail.opentransportdata.common.contracts.TransportDataSuccessResponseListener;
