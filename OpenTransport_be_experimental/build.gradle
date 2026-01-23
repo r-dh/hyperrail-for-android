@@ -55,7 +55,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     implementation project(path: ':OpenTransport')
-    implementation project(path: ':OpenTransport_be')
+    implementation project(path: ':opentransport_be')
 
     testImplementation "org.mockito:mockito-core:2.18.3"
     testImplementation 'junit:junit:4.13.2'

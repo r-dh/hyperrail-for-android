@@ -83,6 +83,6 @@ dependencies {
     })
 
     implementation project(path: ':OpenTransport')
-    implementation project(path: ':OpenTransport_be')
+    implementation project(path: ':opentransport_be')
 }
 
