@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import be.hyperrail.opentransportdata.be.experimental.BuildConfig;
 import be.hyperrail.opentransportdata.common.contracts.MeteredDataSource;
 import be.hyperrail.opentransportdata.common.contracts.TransportDataErrorResponseListener;
 import be.hyperrail.opentransportdata.common.contracts.TransportDataSuccessResponseListener;
@@ -60,7 +59,7 @@ public class LinkedConnectionsProvider {
 
     private boolean mCacheEnabled = true;
 
-    private static final String UA = "OpenTransport-be-experimental for Android - " + BuildConfig.VERSION_NAME;
+    private static final String UA = "OpenTransport-be-experimental for Android - 1.4.4";
 
     private boolean isInternetAvailable() {
         NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();

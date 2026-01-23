@@ -77,10 +77,10 @@
     <string name="shortcut_created">Un raccourci a été ajouté à votre écran d\'accueil</string>
     <string name="walk_description">Marcher jusqu\'à la prochaine gare</string>
     <string name="walk_heading">Marcher</string>
-    <string name="ETA_stop_arrival">À %s j’arriverai dans %s avec %s</string>
-    <string name="ETA_stop_departure">À %s je partirai de %s avec %s</string>
-    <string name="ETA_transfer_arrival">À %s j’arriverai dans %s avec %s</string>
-    <string name="ETA_transfer_departure">À %s je partirai de %s avec %s</string>
+    <string name="ETA_stop_arrival" formatted="false">À %s j'arriverai dans %s avec %s</string>
+    <string name="ETA_stop_departure" formatted="false">À %s je partirai de %s avec %s</string>
+    <string name="ETA_transfer_arrival" formatted="false">À %s j'arriverai dans %s avec %s</string>
+    <string name="ETA_transfer_departure" formatted="false">À %s je partirai de %s avec %s</string>
     <string name="title_activity_station">Gare</string>
     <string name="list_day_names">Lundi\nMardi\nMercredi\nJeudi\nVendredi\nSamedi\nDimanche</string>
     <string name="action_details">Voir en détails</string>
