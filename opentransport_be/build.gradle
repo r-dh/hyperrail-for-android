@@ -41,6 +41,7 @@ dependencies {
 
     implementation project(path: ':OpenTransport')
     implementation 'androidx.annotation:annotation:1.4.0'
+    implementation 'androidx.preference:preference:1.2.1'
 
     testImplementation 'org.mockito:mockito-core:4.7.0'
     testImplementation 'junit:junit:4.13.2'
