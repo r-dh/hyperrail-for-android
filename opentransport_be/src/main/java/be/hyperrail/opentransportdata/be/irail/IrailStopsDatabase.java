@@ -80,11 +80,16 @@ class IrailStopsDatabase extends SQLiteOpenHelper {
     private void loadLocalData(SQLiteDatabase db) {
         db.beginTransaction();
         try (Scanner lines = new Scanner(getLocalData())) {
-            importData(db, lines);
+            int rowCount = importData(db, lines);
+            if (rowCount == 0) {
+                throw new RuntimeException("No station data was imported from CSV file");
+            }
+            log.info("Successfully loaded " + rowCount + " stations into database");
             db.setTransactionSuccessful();
-            db.endTransaction();
         } catch (Exception e) {
             log.severe("Failed to fill stations db with local data!", e);
+            throw new RuntimeException("Failed to initialize stations database", e);
+        } finally {
             db.endTransaction();
         }
     }
@@ -97,8 +102,9 @@ class IrailStopsDatabase extends SQLiteOpenHelper {
         return mResources.openRawResource(getEmbeddedDataResourceId());
     }
 
-    private void importData(SQLiteDatabase db, Scanner lines) {
+    private int importData(SQLiteDatabase db, Scanner lines) {
         lines.useDelimiter("\n");
+        int rowCount = 0;
 
         while (lines.hasNext()) {
             String line = lines.next();
@@ -109,8 +115,10 @@ class IrailStopsDatabase extends SQLiteOpenHelper {
 
             try (Scanner fields = new Scanner(line)) {
                 importRow(db, fields);
+                rowCount++;
             }
         }
+        return rowCount;
     }
 
     private void importRow(SQLiteDatabase db, Scanner fields) {
