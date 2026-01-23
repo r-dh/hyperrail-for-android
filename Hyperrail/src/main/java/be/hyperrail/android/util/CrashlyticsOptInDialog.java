@@ -76,6 +76,7 @@ public class CrashlyticsOptInDialog {
 
     private static void setOptedInOrOut() {
         setPreference(PREFERENCES_KEY_OPTIN_REPLIED, true);
+        hasOptedInOrOut = true;  // Update static variable so dialog won't show again
     }
 
     private static void setPreference(String preference, boolean value) {

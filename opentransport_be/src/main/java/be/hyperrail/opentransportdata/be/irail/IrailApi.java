@@ -82,9 +82,9 @@ public class IrailApi implements TransportDataSource {
         this.parser = new IrailApiParser(stationProviderInstance);
         this.requestQueue = Volley.newRequestQueue(context);
         this.requestPolicy = new DefaultRetryPolicy(
-                10000,
-                3,
-                2.0f
+                5000,   // 5 second timeout (down from 10s) - sufficient for VPN while not too slow
+                2,      // 2 retries (down from 3) - 3 total attempts
+                2.0f    // 2x exponential backoff
         );
         connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -214,6 +214,8 @@ public class IrailApi implements TransportDataSource {
     }
 
     private void getLiveboardBefore(LiveboardRequest request) {
+        // Make both requests in parallel for better performance
+        // Request 1: Get departures from 1 hour ago
         LiveboardRequest actualRequest = request.withSearchTime(
                 request.getSearchTime().minusHours(1));
 
@@ -236,6 +238,8 @@ public class IrailApi implements TransportDataSource {
                             data.getSearchTime(), data.getLiveboardType(), QueryTimeDefinition.EQUAL_OR_EARLIER
                     ));
         }, (e, tag) -> request.notifyErrorListeners(e), actualRequest.getTag());
+
+        // Request 2: Get current/future departures (runs in parallel, not sequentially)
         getLiveboardAfter(request);
     }
 
