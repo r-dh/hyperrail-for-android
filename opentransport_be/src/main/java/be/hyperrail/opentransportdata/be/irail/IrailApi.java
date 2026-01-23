@@ -82,8 +82,8 @@ public class IrailApi implements TransportDataSource {
         this.parser = new IrailApiParser(stationProviderInstance);
         this.requestQueue = Volley.newRequestQueue(context);
         this.requestPolicy = new DefaultRetryPolicy(
-                5000,   // 5 second timeout (down from 10s) - sufficient for VPN while not too slow
-                2,      // 2 retries (down from 3) - 3 total attempts
+                3000,   // 3 second timeout - balanced for speed and reliability
+                1,      // 1 retry - 2 total attempts (worst case: 3s + 6s = 9s)
                 2.0f    // 2x exponential backoff
         );
         connectivityManager =
