@@ -36,13 +36,14 @@ public class Launcher extends android.app.Application {
         boolean enableCrashlytics = BuildConfig.DEBUG
                                     || PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_crashlytics_enabled", true);
         if (enableCrashlytics) {
-            logger = new HyperRailConsoleLogWriter();
+            logger = new HyperRailCrashlyticsLogWriter();
             HyperRailLog.initLogWriter(logger);
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
             HyperRailLog.getLogger(Launcher.class).info("Crashlytics enabled");
         } else {
-            logger = new HyperRailCrashlyticsLogWriter();
+            logger = new HyperRailConsoleLogWriter();
             HyperRailLog.initLogWriter(logger);
+            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(false);
             HyperRailLog.getLogger(Launcher.class).info("Crashlytics disabled");
         }
 
