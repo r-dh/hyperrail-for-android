@@ -65,8 +65,8 @@ public class HealthStateChecker {
 
         // Set timeout and retry policy consistent with main API
         jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
-                3000,   // 3 second timeout - consistent with main API
-                1,      // 1 retry (2 total attempts)
+                10000,  // 10 second timeout
+                2,      // 2 retries (3 total attempts)
                 2.0f    // Exponential backoff multiplier
         ));
 
