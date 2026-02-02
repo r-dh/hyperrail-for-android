@@ -82,8 +82,8 @@ public class ApiPerformanceInstrumentedTest {
 
             LiveboardRequest request = new LiveboardRequest(
                 brusselsCentral,
-                LiveboardType.DEPARTURES,
                 QueryTimeDefinition.EQUAL_OR_LATER,
+                LiveboardType.DEPARTURES,
                 DateTime.now()
             );
 

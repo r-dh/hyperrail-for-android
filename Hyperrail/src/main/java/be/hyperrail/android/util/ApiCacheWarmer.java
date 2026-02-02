@@ -91,8 +91,8 @@ public class ApiCacheWarmer {
                 // Create warming request for current time
                 LiveboardRequest warmingRequest = new LiveboardRequest(
                     station.getStation(),
-                    LiveboardType.DEPARTURES,
                     QueryTimeDefinition.EQUAL_OR_LATER,
+                    LiveboardType.DEPARTURES,
                     now
                 );
 
