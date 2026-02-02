@@ -20,6 +20,7 @@ import be.hyperrail.android.logging.HyperRailConsoleLogWriter;
 import be.hyperrail.android.logging.HyperRailCrashlyticsLogWriter;
 import be.hyperrail.android.logging.HyperRailLog;
 import be.hyperrail.android.logging.HyperRailLogWriter;
+import be.hyperrail.android.util.ApiCacheWarmer;
 import be.hyperrail.android.util.CrashlyticsOptInDialog;
 import be.hyperrail.android.util.ReviewDialog;
 import be.hyperrail.opentransportdata.OpenTransportApi;
@@ -51,6 +52,11 @@ public class Launcher extends android.app.Application {
         OpenTransportApi.init(getApplicationContext(), new IrailDataProvider(), logger);
         ReviewDialog.init(this);
         CrashlyticsOptInDialog.init(this);
+
+        // Warm API caches in background with recent/favorite queries
+        // This solves the cold cache problem (3-12s first request vs 90-140ms cached)
+        ApiCacheWarmer.warmCaches(getApplicationContext());
+
         super.onCreate();
     }
 

@@ -11,12 +11,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import androidx.preference.PreferenceManager;
 
+import com.android.volley.Cache;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -80,7 +85,14 @@ public class IrailApi implements TransportDataSource {
     public IrailApi(Context context, TransportStopsDataSource stationProviderInstance) {
         this.context = context;
         this.parser = new IrailApiParser(stationProviderInstance);
-        this.requestQueue = Volley.newRequestQueue(context);
+
+        // Configure Volley with larger disk cache (10MB) for better client-side caching
+        // Default is 5MB which can be too small for frequent users
+        Cache cache = new DiskBasedCache(context.getCacheDir(), 10 * 1024 * 1024); // 10MB
+        Network network = new BasicNetwork(new HurlStack());
+        this.requestQueue = new RequestQueue(cache, network);
+        this.requestQueue.start();
+
         this.requestPolicy = new DefaultRetryPolicy(
                 10000,  // 10 second timeout - allow time for slow API responses
                 2,      // 2 retries (3 total attempts)
@@ -430,6 +442,11 @@ public class IrailApi implements TransportDataSource {
 
         jsObjRequest.setRetryPolicy(requestPolicy);
         jsObjRequest.setTag(tag);
+
+        // Enable client-side caching to avoid slow cold-cache API responses
+        // API response time: first request 3-12s, cached requests 90-140ms
+        jsObjRequest.setShouldCache(true);
+
         return jsObjRequest;
     }
 
